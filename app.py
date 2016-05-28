@@ -10,12 +10,12 @@ gic = pygeoip.GeoIP(r'./GeoLiteCity.dat')
 @ip.route("/")
 def get_ip():
     try:
-        geo = gic.record_by_addr(request.remote_addr)
+        geo = gic.record_by_addr(request.environ.get('HTTP_X_REAL_IP', request.remote_addr)
         if not geo:
             raise
     except:
         geo = 'geolocation could not be found'
-    return jsonify({'ip': request.remote_addr,
+    return jsonify({'ip': request.environ.get('HTTP_X_REAL_IP', request.remote_addr,
         'geo': geo}), 200
     #for proxy:
     # request.environ.get('HTTP_X_REAL_IP', request.remote_addr)
