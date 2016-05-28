@@ -75,7 +75,7 @@ def get_country_by_alpha2(country):
 ## app ########################################################################
 
 app = Flask(__name__)
-app.config["DEBUG"] = False
+app.config["DEBUG"] = True
 app.register_blueprint(ip, url_prefix="/ip")
 app.register_blueprint(countries, url_prefix="/countries")
 
@@ -103,5 +103,4 @@ def index():
 ###############################################################################
 
 if __name__ == "__main__":
-    port = process.env.PORT || int(os.environ.get('PORT',5000))
-    app.run(host='0.0.0.0', port=port, use_debugger=False, use_reloader=True, threaded=True)
+    app.run(debug=True, use_debugger=False, use_reloader=True, threaded=True)
