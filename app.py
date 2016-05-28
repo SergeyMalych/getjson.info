@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, Blueprint, current_app, request
-import pygeoip, pycountry
+import pygeoip, pycountry, random
 
 ## IP Blueprint ################################################################
 
@@ -38,6 +38,28 @@ def get_ip_by_parameter(address):
         # request.environ.get('HTTP_X_REAL_IP', request.remote_addr)
     except:
         return jsonify({'error': 'address could not be found'})
+
+
+
+## random Blueprint ################################################################
+
+rand = Blueprint('random', __name__)
+
+@rand.route("/")
+def get_ip():
+    try:
+        return jsonify({'float': random.random(),
+            'binary': random.randint(0,1),
+            'digit': random.randint(0,9),
+            'char': random.choice('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'),
+            'int': random.randint(0,9999999999999),
+            'color': {'r':random.randint(0,255),
+                'g':random.randint(0,255),
+                'b':random.randint(0,255)},
+            }), 200
+    except Exception as ex:
+        print(ex)
+        return jsonify({'error': 'unknown'})
 
 
 ## countries Blueprint ########################################################
@@ -221,6 +243,7 @@ app.register_blueprint(ip, url_prefix="/ip")
 app.register_blueprint(countries, url_prefix="/countries")
 app.register_blueprint(currencies, url_prefix="/currencies")
 app.register_blueprint(languages, url_prefix="/languages")
+app.register_blueprint(rand, url_prefix="/random")
 
 
 @app.route("/")
@@ -234,6 +257,11 @@ def index():
                     <li><a href="/ip/google.com"><b>/ip/google.com</b><br>get geodata about specified URI</a></li>
                 </ul>
             </li>
+            <li><h4>Random</h4>
+                <ul>
+                    <li><a href="/random"><b>/random</b><br>get random stuff</a></li>
+                </ul>
+            </li>
             <li><h4>Country codes (ISO 3166)</h4>
                 <ul>
                     <li><a href="/countries"><b>/countries</b><br>get data about all countries</a></li>
@@ -243,13 +271,13 @@ def index():
             <li><h4>Currencies (ISO 4217)</h4>
                 <ul>
                     <li><a href="/currencies"><b>/currencies</b><br>get data about all currencies</a></li>
-                    <li><a href="/currencies/eur"><b>/currencies/eur</b><br>get data about specified currency by identifyer</a></li>
+                    <li><a href="/currencies/eur"><b>/currencies/eur</b><br>get data about specified currency by identifier</a></li>
                 </ul>
             </li>
             <li><h4>Languages (ISO 639)</h4>
                 <ul>
                     <li><a href="/languages"><b>/languages</b><br>get data about all languages</a></li>
-                    <li><a href="/languages/heb"><b>/languages/heb</b><br>get data about specified language by identifyer</a></li>
+                    <li><a href="/languages/heb"><b>/languages/heb</b><br>get data about specified language by identifier</a></li>
                 </ul>
             </li>
             </ul>
