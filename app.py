@@ -50,29 +50,32 @@ def get_countries():
         except:
             pass
 
-        result[country.alpha2] = country_dict_temp
+        result[country.name] = country_dict_temp
 
     return jsonify(result)
 
 @countries.route('/<country>')
 def get_country_by_alpha2(country):
-    c = pycountry.countries.get(alpha2=str(country).upper())
-    result = {}
-    result['name'] = c.name
-    result['numeric'] = c.numeric
-    result['alpha2'] = c.alpha2
-    result['alpha3'] = c.alpha3
     try:
-        result['official_name'] = c.official_name
-    except:
-        pass
+        c = pycountry.countries.get(alpha2=str(country).upper())
+        result = {}
+        result['name'] = c.name
+        result['numeric'] = c.numeric
+        result['alpha2'] = c.alpha2
+        result['alpha3'] = c.alpha3
+        try:
+            result['official_name'] = c.official_name
+        except:
+            pass
 
-    return jsonify(result)
+        return jsonify(result)
+    except:
+        return jsonify({'error': 'country code could not be found'})
 
 ## app ########################################################################
 
 app = Flask(__name__)
-app.config["DEBUG"] = True
+app.config["DEBUG"] = False
 app.register_blueprint(ip, url_prefix="/ip")
 app.register_blueprint(countries, url_prefix="/countries")
 
@@ -83,13 +86,21 @@ def index():
             <ul>
             <li><h4>IP address and geolocation</h4>
                 <ul>
-                    <li><a href="/ip"><b>/ip</b><br> get data about your IP address</a></li>
-                    <li><a href="/ip/64.233.161.99"><b>/ip/64.233.161.99</b><br> get geodata about specified IP address</a></li>
+                    <li><a href="/ip"><b>/ip</b><br>get data about your IP address</a></li>
+                    <li><a href="/ip/64.233.161.99"><b>/ip/64.233.161.99</b><br>get geodata about specified IP address</a></li>
+                    <li><a href="/ip/google.com"><b>/ip/google.com</b><br>get geodata about specified URI</a></li>
                 </ul>
             </li>
-            </ul>'''
+            <li><h4>Country codes</h4>
+                <ul>
+                    <li><a href="/countries"><b>/countries</b><br> get data about all countries</a></li>
+                    <li><a href="/countries/de"><b>/countries/de</b><br> get data about specified country by its alpha2 code(2 letter)</a></li>
+                </ul>
+            </li>
+            </ul>
+            Contact: sergey.malych [at] gmail [dot] com'''
 
 ###############################################################################
 
 if __name__ == "__main__":
-    app.run(use_debugger=True, use_reloader=True)
+    app.run(use_debugger=False, use_reloader=True, threaded=True)
