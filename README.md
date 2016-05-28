@@ -17,4 +17,4 @@
 
 ###Languages (ISO 639)
 * `/languages` - get data about all languages
-*/languages/he` - get data about specified language by identifyer
+* `/languages/he` - get data about specified language by identifyer
