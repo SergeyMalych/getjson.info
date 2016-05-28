@@ -1,5 +1,4 @@
 flask
 pygeoip
 pycountry
-gevent
-guinicorn
+gunicorn
