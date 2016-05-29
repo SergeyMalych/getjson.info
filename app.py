@@ -12,7 +12,7 @@ from blueprints.languages import languages
 ## app ########################################################################
 
 app = Flask(__name__)
-app.config["DEBUG"] = True
+app.config["DEBUG"] = False
 app.register_blueprint(ip, url_prefix="/ip")
 app.register_blueprint(countries, url_prefix="/countries")
 app.register_blueprint(currencies, url_prefix="/currencies")
@@ -61,4 +61,4 @@ def index():
 ###############################################################################
 
 if __name__ == "__main__":
-    app.run(debug=True, use_debugger=False, use_reloader=True, threaded=True)
+    app.run(use_debugger=False, use_reloader=True, threaded=True)
