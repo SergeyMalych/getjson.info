@@ -2,22 +2,17 @@
 # -*- coding: utf-8 -*-
 from flask import Flask, jsonify, Blueprint, current_app, request
 import pycountry
-from blueprints.ip import ip
-from blueprints.random import rand
-from blueprints.countries import countries
-from blueprints.currencies import currencies
-from blueprints.languages import languages
-
+from blueprints import ip, random, countries, currencies, languages
 
 ## app ########################################################################
 
 app = Flask(__name__)
 app.config["DEBUG"] = False
-app.register_blueprint(ip, url_prefix="/ip")
-app.register_blueprint(countries, url_prefix="/countries")
-app.register_blueprint(currencies, url_prefix="/currencies")
-app.register_blueprint(languages, url_prefix="/languages")
-app.register_blueprint(rand, url_prefix="/random")
+app.register_blueprint(ip.ip, url_prefix="/ip")
+app.register_blueprint(countries.countries, url_prefix="/countries")
+app.register_blueprint(currencies.currencies, url_prefix="/currencies")
+app.register_blueprint(languages.languages, url_prefix="/languages")
+app.register_blueprint(random.rand, url_prefix="/random")
 
 
 @app.route("/")
