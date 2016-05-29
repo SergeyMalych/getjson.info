@@ -10,15 +10,15 @@ rand = Blueprint('random', __name__)
 @rand.route("/")
 def get_ip():
     try:
-        return jsonify({'float': random.random(),
+        data = {'float': random.random(),
             'binary': random.randint(0,1),
             'digit': random.randint(0,9),
             'char': random.choice('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'),
             'int': random.randint(0,9999999999999),
             'color': {'r':random.randint(0,255),
                 'g':random.randint(0,255),
-                'b':random.randint(0,255)},
-            }), 200
+                'b':random.randint(0,255)}
+            }
+        return jsonify(data), 200
     except Exception as ex:
-        return ex
         return jsonify({'error': 'unknown'})
