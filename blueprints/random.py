@@ -1,0 +1,24 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+from flask import jsonify, Blueprint, request
+import random
+
+## random Blueprint ################################################################
+
+rand = Blueprint('random', __name__)
+
+@rand.route("/")
+def get_ip():
+    try:
+        return jsonify({'float': random.random(),
+            'binary': random.randint(0,1),
+            'digit': random.randint(0,9),
+            'char': random.choice('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'),
+            'int': random.randint(0,9999999999999),
+            'color': {'r':random.randint(0,255),
+                'g':random.randint(0,255),
+                'b':random.randint(0,255)},
+            }), 200
+    except Exception as ex:
+        print(ex)
+        return jsonify({'error': 'unknown'})
