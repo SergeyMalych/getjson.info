@@ -20,5 +20,5 @@ def get_ip():
                 'b':random.randint(0,255)},
             }), 200
     except Exception as ex:
-        print(ex)
+        retyrn ex
         return jsonify({'error': 'unknown'})
