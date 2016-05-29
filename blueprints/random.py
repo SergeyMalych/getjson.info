@@ -21,4 +21,4 @@ def get_ip():
             }
         return jsonify(data), 200
     except Exception as ex:
-        return jsonify({'error': 'unknown'})
+        return jsonify({'error': ex})
