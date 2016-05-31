@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 from flask import Flask
-from blueprints import ip, random, countries, currencies, languages
+from blueprints import ip, random, countries, currencies, languages, hash
 
 ## app ########################################################################
 
@@ -12,6 +12,7 @@ app.register_blueprint(countries.countries, url_prefix="/countries")
 app.register_blueprint(currencies.currencies, url_prefix="/currencies")
 app.register_blueprint(languages.languages, url_prefix="/languages")
 app.register_blueprint(random.rand, url_prefix="/random")
+app.register_blueprint(hash.hash, url_prefix="/hash")
 
 
 @app.route("/")
@@ -28,6 +29,11 @@ def index():
             <li><h4>Random</h4>
                 <ul>
                     <li><a href="/random"><b>/random</b><br>get random stuff</a></li>
+                </ul>
+            </li>
+            <li><h4>Hash</h4>
+                <ul>
+                    <li><a href="/hash/stringtohash"><b>/hash/stringtohash</b><br>get hash for specified input</a></li>
                 </ul>
             </li>
             <li><h4>Country codes (ISO 3166)</h4>
@@ -55,4 +61,4 @@ def index():
 ###############################################################################
 
 if __name__ == "__main__":
-    app.run(use_debugger=False, use_reloader=True, threaded=True)
+    app.run(debug=True, use_reloader=True, threaded=True)
